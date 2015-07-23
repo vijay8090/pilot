@@ -17,8 +17,8 @@ class CategoryDao
 
 	public function create($categoryBO)
 	{
-		try
-		{
+		/* try
+		{ */
 			$stmt = $this->db->prepare("INSERT INTO M02_CATEGORY(LABEL,STARTAGE,ENDAGE,GENDER) VALUES(:label, :startAge, :endAge, :gender)");
 			
 			$label = $categoryBO->getLabel();
@@ -33,15 +33,15 @@ class CategoryDao
 			
 			$stmt->execute();
 			
-			return array(true);
-		}
-		catch(PDOException $e)
+			return true;
+		//}
+		/* catch(PDOException $e)
 		{
 		   // $error = new 
 			//echo $e->__toString();
 		   // return false;
 			return array(false, $e->getMessage());
-		}
+		} */
 
 	}
 	
@@ -51,8 +51,8 @@ class CategoryDao
 	{
 	    
 	    $categoryArray = array();
-	    try
-	    {
+	    /* try
+	    { */
 	    		$sql = "SELECT M02CATEGORYID as id, label,startage,endage,gender FROM M02_CATEGORY order by M02CATEGORYID desc";
 			
 		$values =  $this->db->query($sql) ;
@@ -77,12 +77,12 @@ class CategoryDao
 		
 	       }
 		}
-	    }
+	    /* }
 	    catch(PDOException $e)
 	    {
 	        echo $e->getMessage();
 	        return null;
-	    }
+	    } */
 	    
 	    return $categoryArray;
 	

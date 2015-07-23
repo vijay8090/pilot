@@ -34,7 +34,7 @@
 						<td>
 							<div class="radio" class='form-control' required>
 								<label> <input type="radio" name="gender" ng-model="fields.gender"
-									id="gender" value="M" checked> Male
+									id="gender" value="M" checked="checked" > Male
 								</label>
 							</div>
 							<div class="radio" class='form-control' required>
@@ -43,15 +43,11 @@
 								</label>
 							</div></td>
 					</tr>
-
-					<tr>
-						<td colspan="2">
-							<button class="btn btn-lg btn-primary" ng-click="reset()">Reset</button>
-							
-						</td>
-					</tr>
+					
 				</table>
 			</form>
+			
+			<button class="btn btn-lg btn-primary" ng-click="reset()">Reset</button>
 			
 			<button class="btn btn-lg btn-primary"
 								ng-click="myData.createNew(item, $event)">Save</button> <a
@@ -77,7 +73,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 
             $scope.myData.intializeForm = function() {
 
-            $scope.master = {category:"Category-", startAge:"6", endAge:"12"};
+            $scope.master = {category:"Category-", startAge:"6", endAge:"12", gender:"M"};
             $scope.reset = function() {
                 $scope.fields = angular.copy($scope.master);
             };
@@ -93,15 +89,22 @@ app.controller("categoryCtrl", function($scope, $http) {
             	
                 var responsePromise = $http.post(url, FormData);
                
-                responsePromise.success(function(response) {
-                  	// alert("createNew "+response);
-               	 alert("createNew "+JSON.stringify(response));
-                    $scope.myData.fromServer = response.message;
+                responsePromise.success(function(response) {       
+
+                	 var obj = 	JSON.parse(response);
+                    // alert(obj.message);
+                     if(obj.message == 'success'){
+                    	 $scope.myData.fromServer = obj.message;
+                    	 $scope.myData.getAllCategory();
+                     } else {
+                    	 $scope.myData.fromServer = obj.message;
+                     }
+
+
                     
-                    $scope.myData.getAllCategory();
                 });
                 responsePromise.error(function(response) {
-                    alert("AJAX failed!" + SON.stringify(responsePromise);
+                    alert("AJAX failed!" + JSON.stringify(responsePromise));
                 });
             }
 
@@ -117,12 +120,14 @@ app.controller("categoryCtrl", function($scope, $http) {
             var responsePromise = $http.post(url, FormData);
 
             responsePromise.success(function(response) {
-             	// alert("AJAX success!" + JSON.stringify(response));
+             //	 alert("AJAX success!" + JSON.stringify(response));
              //	 alert("AJAX success!" );
              var obj = 	JSON.parse(response);
             // alert(obj.message);
              if(obj.message == 'success'){
          	     $scope.myData.gridData = obj.data;
+             } else {
+            	 $scope.myData.fromServer = obj.message;
              }
               });
               

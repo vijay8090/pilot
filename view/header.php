@@ -10,6 +10,7 @@
 <script src= "../js/ui-grid.js"></script>
 <script src= "../js/angular-animate.js"></script>
 <script src= "../js/angular-touch.js"></script>
+<script src="../js/grunt-scripts/vfs_fonts.js"></script>
 
 	<script>
 
